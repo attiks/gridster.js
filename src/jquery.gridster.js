@@ -321,7 +321,7 @@
             ];
             this.remove_empty_cells.apply(this, rows_to_remove_holes);
         }
-
+        this.set_dom_grid_height();
         return $widget;
     };
 

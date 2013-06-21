@@ -741,39 +741,6 @@
  */
 ;(function($, window, document, undefined) {
 
-    //ToDo Max_cols and Max_size_x conflict.. need to unify
-    var defaults = {
-        namespace: '',
-        widget_selector: 'li',
-        static_class: 'static',
-        widget_margins: [10, 10],
-        widget_base_dimensions: [400, 225],
-        extra_rows: 0,
-        extra_cols: 0,
-        min_cols: 1,
-        max_cols: 60,
-        min_rows: 15,
-        max_rows: 15,
-        max_size_x: 6,
-        autogenerate_stylesheet: true,
-        avoid_overlapped_widgets: true,
-        shift_larger_widgets_down: true,
-        serialize_params: function($w, wgd) {
-            return {
-                col: wgd.col,
-                row: wgd.row,
-                size_x: wgd.size_x,
-                size_y: wgd.size_y
-            };
-        },
-        collision: {},
-        draggable: {
-            distance: 4,
-            items: ".gs_w:not(.static)"
-        }
-    };
-
-
     /**
     * @class Gridster
     * @uses Draggable
@@ -821,6 +788,38 @@
     * @constructor
     */
     function Gridster(el, options) {
+      //ToDo Max_cols and Max_size_x conflict.. need to unify
+      var defaults = {
+          namespace: '',
+          widget_selector: 'li',
+          static_class: 'static',
+          widget_margins: [10, 10],
+          widget_base_dimensions: [400, 225],
+          extra_rows: 0,
+          extra_cols: 0,
+          min_cols: 1,
+          max_cols: 60,
+          min_rows: 15,
+          max_rows: 15,
+          max_size_x: 6,
+          autogenerate_stylesheet: true,
+          avoid_overlapped_widgets: true,
+          shift_larger_widgets_down: true,
+          serialize_params: function($w, wgd) {
+              return {
+                  col: wgd.col,
+                  row: wgd.row,
+                  size_x: wgd.size_x,
+                  size_y: wgd.size_y
+              };
+          },
+          collision: {},
+          draggable: {
+              distance: 4,
+              items: ".gs_w:not(.static)"
+          }
+      };
+
       this.options = $.extend(true, defaults, options);
       this.$el = $(el);
       this.$wrapper = this.$el.parent();
@@ -1772,7 +1771,7 @@
          * update the new placeholder position. */
         if (!$overlapped_widgets.length) {
             var pp = this.can_go_player_up(this.player_grid_data);
-            if (pp !== false) {
+            if (false && pp !== false) {
                 to_row = pp;
             }
             if(this.can_placeholder_be_set(to_col, to_row, player_size_x, player_size_y)){

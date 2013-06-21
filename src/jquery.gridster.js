@@ -1037,7 +1037,7 @@
          * update the new placeholder position. */
         if (!$overlapped_widgets.length) {
             var pp = this.can_go_player_up(this.player_grid_data);
-            if (pp !== false) {
+            if (false && pp !== false) {
                 to_row = pp;
             }
             if(this.can_placeholder_be_set(to_col, to_row, player_size_x, player_size_y)){

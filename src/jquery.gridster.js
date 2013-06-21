@@ -565,7 +565,7 @@
         ) {
             /*if(!$el.hasClass('.disp_ad')){
                 $el.remove();
-                return false;   
+                return false;
             }*/
             wgd = this.next_position(wgd.size_x, wgd.size_y);
             wgd.el = $el;
@@ -722,10 +722,13 @@
               'class': 'preview-holder',
               'data-row': this.$player.attr('data-row'),
               'data-col': this.$player.attr('data-col'),
-              css: {
+              'data-sizex': this.$player.attr('data-sizex'),
+              'data-sizey': this.$player.attr('data-sizey'),
+
+              /*css: {
                   width: coords.width,
                   height: coords.height
-              }
+              }*/
         }).appendTo(this.$el);
 
         if (this.options.draggable.start) {
@@ -957,7 +960,7 @@
         var placeholder_cells = this.cells_occupied_by_placeholder;
         var $gr = this;
 
-        
+
         //Queue Swaps
         $overlapped_widgets.each($.proxy(function(i, w){
             var $w = $(w);
@@ -1086,7 +1089,7 @@
                 }
             }
         }
-        
+
         return occupied;
     }
 
@@ -1166,10 +1169,10 @@
 
                     }
                 }
-                    
+
             }
         }
-    
+
         return queued
     }
 
@@ -1179,7 +1182,7 @@
 
         if ((key in this.w_queue)){
             if (this.w_queue[key] == "full"){
-               queued = true; 
+               queued = true;
             } else {
                 $tw = this.w_queue[key];
                 tgd = $tw.coords().grid;
@@ -1193,7 +1196,7 @@
                     queued = true;
                 }
             }
-        } 
+        }
 
         return queued;
     }
@@ -1607,7 +1610,7 @@
                 if (can_go_widget_up) {
                     this.move_widget_to($w, can_go_widget_up);
                 }
-                
+
             }, this));
         }
 

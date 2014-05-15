@@ -802,6 +802,7 @@
           min_rows: 15,
           max_rows: 15,
           max_size_x: 6,
+          swap_widgets: true,
           autogenerate_stylesheet: true,
           avoid_overlapped_widgets: true,
           shift_larger_widgets_down: true,
@@ -1698,59 +1699,61 @@
 
 
         //Queue Swaps
-        $overlapped_widgets.each($.proxy(function(i, w){
-            var $w = $(w);
-            var wgd = $w.coords().grid;
-            var outside_col = placeholder_cells.cols[0]+player_size_x-1;
-            var outside_row = placeholder_cells.rows[0]+player_size_y-1;
-            if ($w.hasClass($gr.options.static_class)){
-                //next iteration
-                return true;
-            }
-            if(wgd.size_x <= player_size_x && wgd.size_y <= player_size_y){
-                if(!$gr.is_swap_occupied(placeholder_cells.cols[0], wgd.row, wgd.size_x, wgd.size_y) && !$gr.is_player_in(placeholder_cells.cols[0], wgd.row) && !$gr.is_in_queue(placeholder_cells.cols[0], wgd.row, $w)){
-                    swap = $gr.queue_widget(placeholder_cells.cols[0], wgd.row, $w);
-                }
-                else if(!$gr.is_swap_occupied(outside_col, wgd.row, wgd.size_x, wgd.size_y) && !$gr.is_player_in(outside_col, wgd.row) && !$gr.is_in_queue(outside_col, wgd.row, $w)){
-                    swap = $gr.queue_widget(outside_col, wgd.row, $w);
-                }
-                else if(!$gr.is_swap_occupied(wgd.col, placeholder_cells.rows[0], wgd.size_x, wgd.size_y) && !$gr.is_player_in(wgd.col, placeholder_cells.rows[0]) && !$gr.is_in_queue(wgd.col, placeholder_cells.rows[0], $w)){
-                    swap = $gr.queue_widget(wgd.col, placeholder_cells.rows[0], $w);
-                }
-                else if(!$gr.is_swap_occupied(wgd.col, outside_row, wgd.size_x, wgd.size_y) && !$gr.is_player_in(wgd.col, outside_row) && !$gr.is_in_queue(wgd.col, outside_row, $w)){
-                    swap = $gr.queue_widget(wgd.col, outside_row, $w);
-                }
-                else if(!$gr.is_swap_occupied(placeholder_cells.cols[0],placeholder_cells.rows[0], wgd.size_x, wgd.size_y) && !$gr.is_player_in(placeholder_cells.cols[0],placeholder_cells.rows[0]) && !$gr.is_in_queue(placeholder_cells.cols[0],placeholder_cells.rows[0], $w)){
-                    swap = $gr.queue_widget(placeholder_cells.cols[0], placeholder_cells.rows[0], $w);
-                } else {
-                        //in one last attempt we check for any other empty spaces
-                        for (var c = 0; c < player_size_x; c++){
-                            for (var r = 0; r < player_size_y; r++){
-                                var colc = placeholder_cells.cols[0]+c;
-                                var rowc = placeholder_cells.rows[0]+r;
-                                if (!$gr.is_swap_occupied(colc,rowc, wgd.size_x, wgd.size_y) && !$gr.is_player_in(colc,rowc) && !$gr.is_in_queue(colc, rowc, $w)){
-                                    swap = $gr.queue_widget(colc, rowc, $w);
-                                    c = player_size_x;
-                                    break;
-                                }
-                            }
-                        }
+        if ($gr.options.swap_widgets) {
+          $overlapped_widgets.each($.proxy(function(i, w){
+              var $w = $(w);
+              var wgd = $w.coords().grid;
+              var outside_col = placeholder_cells.cols[0]+player_size_x-1;
+              var outside_row = placeholder_cells.rows[0]+player_size_y-1;
+              if ($w.hasClass($gr.options.static_class)){
+                  //next iteration
+                  return true;
+              }
+              if(wgd.size_x <= player_size_x && wgd.size_y <= player_size_y){
+                  if(!$gr.is_swap_occupied(placeholder_cells.cols[0], wgd.row, wgd.size_x, wgd.size_y) && !$gr.is_player_in(placeholder_cells.cols[0], wgd.row) && !$gr.is_in_queue(placeholder_cells.cols[0], wgd.row, $w)){
+                      swap = $gr.queue_widget(placeholder_cells.cols[0], wgd.row, $w);
+                  }
+                  else if(!$gr.is_swap_occupied(outside_col, wgd.row, wgd.size_x, wgd.size_y) && !$gr.is_player_in(outside_col, wgd.row) && !$gr.is_in_queue(outside_col, wgd.row, $w)){
+                      swap = $gr.queue_widget(outside_col, wgd.row, $w);
+                  }
+                  else if(!$gr.is_swap_occupied(wgd.col, placeholder_cells.rows[0], wgd.size_x, wgd.size_y) && !$gr.is_player_in(wgd.col, placeholder_cells.rows[0]) && !$gr.is_in_queue(wgd.col, placeholder_cells.rows[0], $w)){
+                      swap = $gr.queue_widget(wgd.col, placeholder_cells.rows[0], $w);
+                  }
+                  else if(!$gr.is_swap_occupied(wgd.col, outside_row, wgd.size_x, wgd.size_y) && !$gr.is_player_in(wgd.col, outside_row) && !$gr.is_in_queue(wgd.col, outside_row, $w)){
+                      swap = $gr.queue_widget(wgd.col, outside_row, $w);
+                  }
+                  else if(!$gr.is_swap_occupied(placeholder_cells.cols[0],placeholder_cells.rows[0], wgd.size_x, wgd.size_y) && !$gr.is_player_in(placeholder_cells.cols[0],placeholder_cells.rows[0]) && !$gr.is_in_queue(placeholder_cells.cols[0],placeholder_cells.rows[0], $w)){
+                      swap = $gr.queue_widget(placeholder_cells.cols[0], placeholder_cells.rows[0], $w);
+                  } else {
+                          //in one last attempt we check for any other empty spaces
+                          for (var c = 0; c < player_size_x; c++){
+                              for (var r = 0; r < player_size_y; r++){
+                                  var colc = placeholder_cells.cols[0]+c;
+                                  var rowc = placeholder_cells.rows[0]+r;
+                                  if (!$gr.is_swap_occupied(colc,rowc, wgd.size_x, wgd.size_y) && !$gr.is_player_in(colc,rowc) && !$gr.is_in_queue(colc, rowc, $w)){
+                                      swap = $gr.queue_widget(colc, rowc, $w);
+                                      c = player_size_x;
+                                      break;
+                                  }
+                              }
+                          }
 
-                    }
-            } else if ($gr.options.shift_larger_widgets_down && !swap) {
-                $overlapped_widgets.each($.proxy(function(i, w){
-                    var $w = $(w);
-                    var wgd = $w.coords().grid;
+                      }
+              } else if ($gr.options.shift_larger_widgets_down && !swap) {
+                  $overlapped_widgets.each($.proxy(function(i, w){
+                      var $w = $(w);
+                      var wgd = $w.coords().grid;
 
-                    if($gr.can_go_down($w)){
-                        $gr.move_widget_down($w, $gr.player_grid_data.size_y);
-                        $gr.set_placeholder(to_col, to_row);
-                    }
-                }));
-            }
+                      if($gr.can_go_down($w)){
+                          $gr.move_widget_down($w, $gr.player_grid_data.size_y);
+                          $gr.set_placeholder(to_col, to_row);
+                      }
+                  }));
+              }
 
-            $gr.clean_up_changed();
-        }));
+              $gr.clean_up_changed();
+          }));
+        }
 
 
         /* To show queued items in console
